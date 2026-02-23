@@ -1,0 +1,26 @@
+[package]
+name = "patcher"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+authors = ["Vadym Prygoda <vadym.prygoda@gmail.com>"]
+description = "Binary patching tool for directory trees: create and apply compact patches between directory snapshots."
+repository = "https://github.com/Vadimus1983/patcher"
+readme = "README.md"
+
+[dependencies]
+clap = { version = "4.5.60", features = ["derive"] }
+serde = { version = "1.0.228", features = ["derive"] }
+bincode = "1.3.3"
+zstd = "0.13.3"
+blake3 = "1.8.3"
+walkdir = "2.5.0"
+tokio = { version = "1.49.0", features = ["full"] }
+rayon = "1.11.0"
+anyhow = "1.0.102"
+memmap2 = "0.9.10"
+
+[profile.release]
+lto = true
+codegen-units = 1
+opt-level = 3
