@@ -192,4 +192,4 @@ patcher apply --target target --patch demo.patch
   - **DeleteFile** — remove files.
   - **DeleteDir** — remove directories (deepest-first).
 
-Paths in the manifest use forward slashes for cross-platform consistency. Modified files are represented as rsync-like diffs (fixed-size block matching with a rolling hash, then BLAKE3 confirmation).
+Paths in the manifest use forward slashes for cross-platform consistency. Modified files are represented as rsync-like diffs (fixed-size block matching with a rolling hash, confirmed with direct byte comparison).
