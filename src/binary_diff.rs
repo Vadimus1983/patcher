@@ -7,7 +7,6 @@ pub const BLOCK_SIZE: usize = 4096;
 
 struct BlockSignature {
     rolling_hash: u32,
-    strong_hash: blake3::Hash,
     offset: u64,
 }
 
@@ -48,7 +47,6 @@ fn build_signatures(data: &[u8]) -> Vec<BlockSignature> {
 
         sigs.push(BlockSignature {
             rolling_hash: rolling.digest(),
-            strong_hash: blake3::hash(block),
             offset: start as u64,
         });
     }
@@ -140,6 +138,8 @@ fn match_blocks(
 
 /// Try to find a matching old block for the current new window.
 /// Returns (old_offset, length) on match.
+/// Uses direct slice comparison (SIMD-vectorized memcmp) instead of BLAKE3:
+/// faster on both true matches and false positives, and short-circuits on mismatch.
 fn find_match(
     rolling_digest: u32,
     new_block: &[u8],
@@ -149,14 +149,13 @@ fn find_match(
 ) -> Option<(u64, u64)> {
     let candidates = hash_table.get(&rolling_digest)?;
 
-    let new_strong = blake3::hash(new_block);
-
     for &sig_idx in candidates {
         let sig = &signatures[sig_idx];
-        if sig.strong_hash == new_strong {
-            let block_end = (sig.offset as usize + BLOCK_SIZE).min(old.len());
-            let block_len = block_end - sig.offset as usize;
-            return Some((sig.offset, block_len as u64));
+        let start = sig.offset as usize;
+        let end = (start + new_block.len()).min(old.len());
+        let old_block = &old[start..end];
+        if old_block == new_block {
+            return Some((sig.offset, old_block.len() as u64));
         }
     }
 
