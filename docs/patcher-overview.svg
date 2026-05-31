@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0f172a"/>
+      <stop offset="1" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="patch" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f59e0b"/>
+      <stop offset="1" stop-color="#d97706"/>
+    </linearGradient>
+    <linearGradient id="create" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#22d3ee"/>
+      <stop offset="1" stop-color="#0ea5e9"/>
+    </linearGradient>
+    <linearGradient id="apply" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#34d399"/>
+      <stop offset="1" stop-color="#10b981"/>
+    </linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#94a3b8"/>
+    </marker>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="640" fill="url(#bg)"/>
+
+  <!-- Title -->
+  <text x="600" y="70" text-anchor="middle" fill="#94a3b8" font-size="18">Binary patching for directory trees — diff two snapshots, ship one tiny patch</text>
+
+  <!-- ===== OLD directory tree ===== -->
+  <g filter="url(#shadow)">
+    <rect x="60" y="180" width="230" height="300" rx="14" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+  </g>
+  <text x="175" y="212" text-anchor="middle" fill="#cbd5e1" font-size="18" font-weight="600">OLD version</text>
+  <text x="175" y="232" text-anchor="middle" fill="#64748b" font-size="13">./old_version</text>
+  <g fill="#94a3b8" font-size="14" font-family="'Cascadia Code','Consolas',monospace">
+    <text x="90" y="270">📁 app/</text>
+    <text x="110" y="298" fill="#cbd5e1">main.exe</text>
+    <text x="110" y="326" fill="#cbd5e1">data.bin</text>
+    <text x="90"  y="354">📁 assets/</text>
+    <text x="110" y="382" fill="#cbd5e1">logo.png</text>
+    <text x="110" y="410" fill="#cbd5e1">config.txt</text>
+  </g>
+
+  <!-- ===== NEW directory tree ===== -->
+  <g filter="url(#shadow)">
+    <rect x="60" y="180" width="230" height="300" rx="14" fill="none"/>
+    <rect x="340" y="180" width="230" height="300" rx="14" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+  </g>
+  <text x="455" y="212" text-anchor="middle" fill="#cbd5e1" font-size="18" font-weight="600">NEW version</text>
+  <text x="455" y="232" text-anchor="middle" fill="#64748b" font-size="13">./new_version</text>
+  <g font-size="14" font-family="'Cascadia Code','Consolas',monospace">
+    <text x="370" y="270" fill="#94a3b8">📁 app/</text>
+    <text x="390" y="298" fill="#fbbf24">main.exe   ~</text>
+    <text x="390" y="326" fill="#cbd5e1">data.bin</text>
+    <text x="370" y="354" fill="#94a3b8">📁 assets/</text>
+    <text x="390" y="382" fill="#cbd5e1">logo.png</text>
+    <text x="390" y="410" fill="#f87171">config.txt  −</text>
+    <text x="390" y="438" fill="#4ade80">readme.md  +</text>
+  </g>
+
+  <!-- create arrows into engine -->
+  <path d="M295 300 C 320 300, 600 300, 640 360" fill="none" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M575 320 C 610 330, 615 340, 640 380" fill="none" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- ===== Diff engine ===== -->
+  <g filter="url(#shadow)">
+    <rect x="640" y="320" width="270" height="160" rx="16" fill="url(#create)"/>
+  </g>
+  <text x="775" y="352" text-anchor="middle" fill="#073042" font-size="16" font-weight="700">patcher create</text>
+  <g fill="#0c4a5e" font-size="13" text-anchor="middle">
+    <text x="775" y="382">rsync-style block matching</text>
+    <text x="775" y="404">rolling hash → copy / insert</text>
+    <text x="775" y="426">BLAKE3 identity check</text>
+    <text x="775" y="448">bincode + zstd compress</text>
+  </g>
+
+  <!-- arrow to patch file -->
+  <path d="M910 400 C 950 400, 975 400, 1000 400" fill="none" stroke="#94a3b8" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <!-- ===== Patch file ===== -->
+  <g filter="url(#shadow)">
+    <rect x="1000" y="330" width="150" height="140" rx="14" fill="url(#patch)"/>
+  </g>
+  <text x="1075" y="372" text-anchor="middle" fill="#3b2406" font-size="40">📦</text>
+  <text x="1075" y="412" text-anchor="middle" fill="#3b2406" font-size="16" font-weight="700">update.patch</text>
+  <text x="1075" y="436" text-anchor="middle" fill="#7c4a07" font-size="12">only the changes</text>
+  <text x="1075" y="454" text-anchor="middle" fill="#7c4a07" font-size="12">small · compressed</text>
+
+  <!-- ===== Apply flow (bottom) ===== -->
+  <path d="M1075 470 C 1075 520, 1075 530, 900 545" fill="none" stroke="#94a3b8" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <g filter="url(#shadow)">
+    <rect x="620" y="520" width="270" height="90" rx="16" fill="url(#apply)"/>
+  </g>
+  <text x="755" y="552" text-anchor="middle" fill="#053d2b" font-size="16" font-weight="700">patcher apply</text>
+  <g fill="#064e3b" font-size="13" text-anchor="middle">
+    <text x="755" y="576">add · modify · delete files + dirs</text>
+    <text x="755" y="596">verify every write with BLAKE3</text>
+  </g>
+
+  <path d="M620 565 C 560 565, 520 565, 470 565" fill="none" stroke="#94a3b8" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <!-- ===== Target install ===== -->
+  <g filter="url(#shadow)">
+    <rect x="240" y="510" width="220" height="110" rx="14" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+  </g>
+  <text x="350" y="540" text-anchor="middle" fill="#cbd5e1" font-size="16" font-weight="600">Target install</text>
+  <text x="350" y="560" text-anchor="middle" fill="#64748b" font-size="12">C:\Games\MyGame</text>
+  <text x="350" y="592" text-anchor="middle" fill="#4ade80" font-size="14" font-weight="600">✓ now matches NEW</text>
+
+  <!-- Footer tagline -->
+  <text x="60" y="135" fill="#e2e8f0" font-size="16">
+    <tspan fill="#22d3ee" font-weight="700">Create</tspan>
+    <tspan fill="#94a3b8"> a compact patch from two folders, then </tspan>
+    <tspan fill="#34d399" font-weight="700">apply</tspan>
+    <tspan fill="#94a3b8"> it to update any install — fast, parallel, integrity-checked.</tspan>
+  </text>
+</svg>

@@ -1,5 +1,9 @@
 # Patcher
 
+<p align="center">
+  <img src="docs/patcher-overview.svg" alt="Patcher overview" width="900">
+</p>
+
 A **binary patching tool** for directory trees. It computes the difference between two directory snapshots and produces a compact, compressed patch file that can be applied to transform an old version into a new version.
 
 Use it to:
